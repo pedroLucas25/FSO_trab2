@@ -36,7 +36,9 @@ int main(int argc, char *argv[]){
   }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  printf("%s\n", address[2]);
+/* ate aqui ta pronto ler o arquivo e os numeros de forma separada que tem nele mais as funçoes q tiram o numero da pagina e o numero do deslocamento*/
+
+  printf("%s\n", address[MAX_ELEMENTOS-1]);
 
   fclose(arq);
   return 0;
