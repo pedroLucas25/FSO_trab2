@@ -11,8 +11,8 @@ uint32_t numDeslocamento(unsigned char*);
 int main(int argc, char *argv[]){
 
   FILE *arq;
-  unsigned char texto[MAX_LINHA], primeiroEnd[10];
-  int i=0;
+  unsigned char texto[MAX_LINHA], address[10][100];
+  int i=0, z;
 
   arq = fopen(argv[1], "r");
   if (arq == NULL){  // Se houve erro na abertura
@@ -22,18 +22,21 @@ int main(int argc, char *argv[]){
 
   fgets((char*)texto, MAX_LINHA, arq);
 
-  while(texto[i] != ' '){
-    primeiroEnd[i] = texto[i];
+  for(unsigned int j=0;j<strlen((const char*)texto);j++){
+    z=0;
+    while (texto[i] != ' ') {
+      address[j][z] = texto[i];
+      z++;
+      i++;
+    }
     i++;
   }
 
-  printf("%s\n", texto);
+  //printf("%s\n", address[3]);
 
-  printf("%x\n", numDeslocamento(primeiroEnd));
+  printf("%x\n", numDeslocamento(address[3]));
 
   fclose(arq);
-
-  //printf("Ola mundo!\n");
   return 0;
 }
 
