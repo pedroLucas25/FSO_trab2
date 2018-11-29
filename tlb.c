@@ -2,18 +2,23 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
+#include <time.h>
 
 #define MAX_TEXTO 100000
 #define MAX_ELEMENTOS 10000
 
 uint32_t numPagina(unsigned char*);
 uint32_t numDeslocamento(unsigned char*);
+uint32_t geraTabela();
+time_t t;
 
 int main(int argc, char *argv[]){
 
   FILE *arq;
   unsigned char texto[MAX_TEXTO], address[MAX_ELEMENTOS][10];
   unsigned int i, z, j;
+  uint32_t tabelaDePaginas[256];
+  srand((unsigned) time(&t));
 
   arq = fopen(argv[1], "r");
   if (arq == NULL){  // Se houve erro na abertura
@@ -36,9 +41,16 @@ int main(int argc, char *argv[]){
   }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/* ate aqui ta pronto ler o arquivo e os numeros de forma separada que tem nele mais as funçoes q tiram o numero da pagina e o numero do deslocamento*/
+  for(i=0;i<256;i++){
+    tabelaDePaginas[i] = geraTabela();
+  }
 
-  printf("%s\n", address[MAX_ELEMENTOS-1]);
+  for(i=0;i<5;i++){
+    printf("O enderço logico que esta sendo traduzido e o: %s\n", address[i]);
+    printf("Quadro: %d\nPagina: %d\n", tabelaDePaginas[numPagina(address[i])], numPagina(address[i]));
+    printf("Offsset: %d\n", numDeslocamento(address[i]));
+    printf("Endereco traduzido: %d\n", (tabelaDePaginas[numPagina(address[i])]*256)+numDeslocamento(address[i]));
+  }
 
   fclose(arq);
   return 0;
@@ -57,4 +69,10 @@ uint32_t numDeslocamento(unsigned char* numChar){
   num &= 0x000000FF;
 
   return num;
+}
+
+uint32_t geraTabela(){
+  uint32_t resultado;
+  resultado = (rand() % (256));
+  return resultado;
 }
